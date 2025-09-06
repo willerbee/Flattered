@@ -1,9 +1,9 @@
 {
   "name": "flattered-themes",
-  "displayName": "Flattered",
+  "displayName": "Flattered Themes",
   "description": "If you're a fan of a singular background color for any theme using the main editor's color to effectively make any theme a flat version, this is the extension for you",
   "version": "0.0.1",
-  "publisher": "Wilmon Agulo",
+  "publisher": "WilmonAgulo",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -63,7 +63,7 @@
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to activity bar"
-        }, 
+        },
         "flattered.applyTo.sideBar": {
           "order": 6,
           "type": "boolean",
