@@ -4,9 +4,11 @@
   "description": "If you're a fan of a singular background color for any theme using the main editor's color to effectively make any theme a flat version, this is the extension for you",
   "version": "1.0.0",
   "publisher": "WilmonAgulo",
+  "repository": "https://github.com/willerbee/Flattered/",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.103.0"
   },
+  "license": "GPL-3.0-or-later",
   "categories": [
     "Other"
   ],
@@ -95,7 +97,7 @@
           "description": "Also apply on related borders"
         },
         "flattered.backupColorCustomizations": {
-          "type":"object",
+          "type": "object",
           "default": {},
           "description": "Tracked backup customizations before applying in workbench.colorCustomizations"
         }
