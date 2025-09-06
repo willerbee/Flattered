@@ -24,20 +24,22 @@ function resetFlattered() {
   const config = vscode.workspace.getConfiguration();
 
   const backupColorCustomizations = config.get<Record<string, string>>('flattered.backupColorCustomizations') || {};
-  if (Object.keys(backupColorCustomizations).length === 0) {
+  const colors = config.get<Record<string, string>>('workbench.colorCustomizations') || {};
+  const flatteredMade = colors['flattered-made']?.split(',');
+
+  if (Object.keys(backupColorCustomizations).length === 0 && !flatteredMade) {
     return;
   }
 
-  const colors = config.get<Record<string, string>>('workbench.colorCustomizations') || {};
   const newColors = { ...colors };
 
   const applyTo = vscode.workspace.getConfiguration('flattered.applyTo');
   const overrides = buildFlatteredColors('false', applyTo);
 
   for (const [key, value] of Object.entries(colors)) {
-    if (backupColorCustomizations[key]) {
+    if (key !== 'flattered-made' && backupColorCustomizations[key]) {
       newColors[key] = backupColorCustomizations[key];
-    } else if (overrides.hasOwnProperty(key)) {
+    } else if (overrides.hasOwnProperty(key) || key === 'flattered-made') {
       delete newColors[key];
     }
   }
@@ -158,17 +160,20 @@ export function activate(context: vscode.ExtensionContext) {
     const backupColorCustomizations =
       vscode.workspace.getConfiguration().get<Record<string, string | null>>('flattered.backupColorCustomizations') ||
       {};
-
     const backupIsEmpty = Object.keys(backupColorCustomizations).length === 0;
+
     const newColors = { ...currentColors };
     const newBackup = { ...backupColorCustomizations };
+    const flatteredMade = currentColors['flattered-made']?.split(',');
+    const newFlatterdMade = [];
 
     for (const [key, value] of Object.entries(overrides)) {
       if (
         currentColors[key] !== undefined &&
         newBackup[key] === undefined &&
         currentColors[key] !== value &&
-        backupIsEmpty
+        backupIsEmpty &&
+        (!flatteredMade || flatteredMade.indexOf(key) < 0)
       ) {
         newBackup[key] = currentColors[key];
       }
@@ -177,15 +182,18 @@ export function activate(context: vscode.ExtensionContext) {
         delete newColors[key];
       } else {
         newColors[key] = value;
+        newFlatterdMade.push(key);
       }
     }
+
+    newColors['flattered-made'] = newFlatterdMade.join(',');
 
     vscode.workspace
       .getConfiguration()
       .update('workbench.colorCustomizations', newColors, vscode.ConfigurationTarget.Global);
     vscode.workspace
       .getConfiguration()
-      .update('flattered.backupColorCustomizations', newBackup, vscode.ConfigurationTarget.Global);
+      .update('flattered.backupColorCustomizations', (Object.keys(newBackup).length === 0 ? undefined : newBackup), vscode.ConfigurationTarget.Global);
 
     vscode.window.showInformationMessage(`Flattered ${customColor ? ' Custom ' : ''}applied to theme: ${themeName}`);
   };
