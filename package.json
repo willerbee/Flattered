@@ -2,12 +2,13 @@
   "name": "flattered-themes",
   "displayName": "Flattered Themes",
   "description": "If you're a fan of a singular background color for any theme using the main editor's color to effectively make any theme a flat version, this is the extension for you",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "publisher": "WilmonAgulo",
   "repository": "https://github.com/willerbee/Flattered/",
   "engines": {
     "vscode": "^1.103.0"
   },
+  "icon": "images/icon.png",
   "license": "GPL-3.0-or-later",
   "categories": [
     "Other"
