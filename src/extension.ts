@@ -19,6 +19,22 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import { gzip, gunzip } from 'node:zlib';
+import { promisify } from 'node:util';
+
+const gzipPromise = promisify(gzip);
+const gunzipPromise = promisify(gunzip);
+
+async function compressString(input: string): Promise<string> {
+  const compressedBuffer = await gzipPromise(input);
+  return compressedBuffer.toString('base64');
+}
+
+async function decompressString(compressedBase64: string): Promise<string> {
+  const compressedBuffer = Buffer.from(compressedBase64, 'base64');
+  const decompressedBuffer = await gunzipPromise(compressedBuffer);
+  return decompressedBuffer.toString('utf8');
+}
 
 function resetFlattered() {
   const config = vscode.workspace.getConfiguration();
@@ -105,7 +121,7 @@ function buildFlatteredColors(baseColor: string, applyTo: vscode.WorkspaceConfig
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const applyFlattered = () => {
+  const applyFlattered = async () => {
     if (!vscode.workspace.getConfiguration('flattered').get<boolean>('enabled')) {
       vscode.window.showInformationMessage('Flattered is disabled.', 'Enable').then((selection) => {
         if (selection === 'Enable') {
@@ -164,7 +180,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     const newColors = { ...currentColors };
     const newBackup = { ...backupColorCustomizations };
-    const flatteredMade = currentColors['flattered-made']?.split(',');
+    const flatteredMadeRaw = currentColors['flattered-made'];
+    const flatteredMadeSplit = flatteredMadeRaw?.split('please-dont-touch-me');
+    const isNewFlatteredMade = flatteredMadeSplit && flatteredMadeSplit.length === 2 && flatteredMadeSplit[0] === '';
+    const flatteredMade = isNewFlatteredMade
+      ? (await decompressString(flatteredMadeSplit[1])).split(',')
+      : flatteredMadeRaw?.split(',');
     const newFlatterdMade = [];
 
     for (const [key, value] of Object.entries(overrides)) {
@@ -173,7 +194,7 @@ export function activate(context: vscode.ExtensionContext) {
         newBackup[key] === undefined &&
         currentColors[key] !== value &&
         backupIsEmpty &&
-        (!flatteredMade || flatteredMade.indexOf(key) < 0)
+        (!flatteredMadeRaw || flatteredMade.indexOf(key) < 0)
       ) {
         newBackup[key] = currentColors[key];
       }
@@ -186,14 +207,18 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
 
-    newColors['flattered-made'] = newFlatterdMade.join(',');
+    newColors['flattered-made'] = 'please-dont-touch-me' + (await compressString(newFlatterdMade.join(',')));
 
     vscode.workspace
       .getConfiguration()
       .update('workbench.colorCustomizations', newColors, vscode.ConfigurationTarget.Global);
     vscode.workspace
       .getConfiguration()
-      .update('flattered.backupColorCustomizations', (Object.keys(newBackup).length === 0 ? undefined : newBackup), vscode.ConfigurationTarget.Global);
+      .update(
+        'flattered.backupColorCustomizations',
+        Object.keys(newBackup).length === 0 ? undefined : newBackup,
+        vscode.ConfigurationTarget.Global,
+      );
 
     vscode.window.showInformationMessage(`Flattered ${customColor ? ' Custom ' : ''}applied to theme: ${themeName}`);
   };
