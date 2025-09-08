@@ -1,7 +1,6 @@
 # Flattered
 
-👋 A minimal VS Code extension that makes your editor look **flat, tidy, and minimal**.
-If you’ve ever liked a theme but wished for a cleaner, flatter version — Flattered has you covered.
+👋 A VS Code extension that makes your editor look **flat, tidy, modern, and minimal**. This is not a theme, but a "theme overrider" or "theme flattener" so to speak. If you’ve ever liked a color theme's look in the editor but wished for a cleaner, flatter overall look — Flattered has you covered.
 
 ---
 
@@ -84,10 +83,21 @@ This isn't a setting per se, but a storage of previous workbench color customiza
 ## Known Issues
 
 - Manual user's overrides in `workbench.colorCustomizations` may get wiped out once overrides are applied.
+- Some themes doesn't seem to be compatible with this, i.e. can find where their theme files are located (e.g. "Best Themes Redefined"). Still investigating why.
 
 ---
 
 ## Release Notes
+
+### 1.1.0
+- Support for title bar background color as source color
+- Support for applying to
+  - sidebar section header background
+  - minimap background
+- Change setting for Auto Apply to
+  - false
+  - true (Always when color theme or a Flattered setting has been changed)
+  - "ask"
 
 ### 1.0.2
 - Compressed `flattered-made` setting.
@@ -128,16 +138,9 @@ This isn't a setting per se, but a storage of previous workbench color customiza
 ---
 
 ## Roadmap
-- Support for title bar background color as source color
-- Support for applying to
-  - sidebar section header background
-  - minimap background
 - More commands
   - Change each of the Flattered setting
-- Change setting for Auto Apply to
-  - No
-  - Ask
-  - Always when color theme or a Flattered setting has been changed
+
 
 **I hope you enjoy a flatter VS Code!**
 
