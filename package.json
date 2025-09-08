@@ -67,6 +67,12 @@
           "default": true,
           "description": "Apply Flattered color to activity bar"
         },
+        "flattered.applyTo.minimap": {
+          "order": 7,
+          "type": "boolean",
+          "default": true,
+          "description": "Apply Flattered color to minimap"
+        },
         "flattered.applyTo.sideBar": {
           "order": 6,
           "type": "boolean",

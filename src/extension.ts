@@ -81,6 +81,12 @@ function buildFlatteredColors(baseColor: string, applyTo: vscode.WorkspaceConfig
   colors['sideBar.background'] = apply ? baseColor : 'false';
   colors['sideBar.border'] = apply && applyBorders ? baseColor : 'false';
 
+  apply = applyTo.get('minimap');
+  colors['minimap.background'] = apply ? baseColor : 'false';
+
+  apply = applyTo.get('sideBarSectionHeader');
+  colors['sideBarSectionHeader.background'] = apply ? baseColor : 'false';
+
   apply = applyTo.get('activityBar');
   colors['activityBar.background'] = apply ? baseColor : 'false';
   colors['activityBar.border'] = apply && applyBorders ? baseColor : 'false';
