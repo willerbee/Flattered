@@ -19,11 +19,28 @@ To see a theme in its original form, use the **Reset Current Theme** command to 
 
 ---
 
+## Quick How-To Use
+
+By default, Flattered will not auto apply.
+- Select a your favorite theme.
+- Run command `Flattered: Apply to Current Theme`
+- Profit! :)
+
+NOTE AGAIN: If you're previewing color themes with Flattered already applied, you might only see the text change colors as the overrides for the backgrounds are still active. Reset the theme first to remove the overrides if you want to preview the color themes' original look before previewing. Command: `Flattered: Reset Current Theme`
+
+- Play around the settings. You can toggle different parts to use the current theme's background color for sidebar, minimap, terminal, titlebar, etc. You can also use the title bar's background color instead of the editor's background color as the source, or even provide a custom hex value. You can also auto apply if you already get the hang of it.
+
+
+---
+
 ## Features
 
-- Apply a **flat and minimal style** on top of any theme.
+- Apply a **flat and minimal style** override to any theme.
 - Works with your favorite color themes without replacing them.
 - Toggle and reset easily from the command palette.
+- Use the title bar, editor, or a custom hex color as a source.
+- Toggleable parts on which you can apply to override the color.
+- Auto apply after switching color themes.
 
 ### Preview
 
@@ -83,11 +100,15 @@ This isn't a setting per se, but a storage of previous workbench color customiza
 ## Known Issues
 
 - Manual user's overrides in `workbench.colorCustomizations` may get wiped out once overrides are applied.
-- Some themes doesn't seem to be compatible with this, i.e. can find where their theme files are located (e.g. "Best Themes Redefined"). Still investigating why.
+- ~~Some themes doesn't seem to be compatible with this, i.e. can find where their theme files are located (e.g. "Best Themes Redefined"). Still investigating why.~~ ✅
 
 ---
 
 ## Release Notes
+
+
+### 1.1.1
+- Fix some themes doesn't get read properly. They should be working now.
 
 ### 1.1.0
 - Support for title bar background color as source color
