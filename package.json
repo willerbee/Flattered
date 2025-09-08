@@ -56,8 +56,24 @@
           "default": false,
           "description": "Enable automatic apply Flattered on theme change, workbench.colorCustomizations, or Flatter setting change"
         },
-        "flattered.customColor": {
+        "flattered.colorSource": {
           "order": 2,
+          "type": "string",
+          "enum": [
+            "editorBackground",
+            "titleBarBackground",
+            "customColor"
+          ],
+          "enumDescriptions": [
+            "Current theme's editor background",
+            "Current theme's title bar background",
+            "Custom color defined below"
+          ],
+          "default": "editorBackground",
+          "description": "Set the source color to use as the background"
+        },
+        "flattered.customColor": {
+          "order": 3,
           "type": "string",
           "default": "",
           "description": "Custom color (hex) to use. Leave blank to use editor background color."

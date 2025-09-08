@@ -138,8 +138,7 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    const workbenchConfig = vscode.workspace.getConfiguration('workbench');
-    const themeName = workbenchConfig.get<string>('colorTheme');
+    const themeName = vscode.workspace.getConfiguration('workbench').get<string>('colorTheme');
 
     if (!themeName) {
       vscode.window.showWarningMessage('No active theme detected.');
@@ -167,11 +166,22 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    const customColor = vscode.workspace.getConfiguration('flattered').get<string>('customColor');
-    const baseColor =
-      (customColor && customColor.trim() !== '' ? customColor.trim() : null) ||
-      themeData.colors?.['editor.background'] ||
-      '#1e1e1e';
+    let baseColor = themeData.colors?.['editor.background'] || '#1e1e1e';
+
+    const flatteredMadeColorSource = vscode.workspace.getConfiguration('flattered').get<string>('colorSource');
+    const flatteredMadeCustomColor = vscode.workspace.getConfiguration('flattered').get<string>('customColor');
+
+    switch (flatteredMadeColorSource) {
+      case 'titleBarBackground':
+        baseColor = themeData.colors?.['titleBar.activeBackground'] || baseColor;
+        break;
+      case 'customColor':
+        baseColor =
+          (flatteredMadeCustomColor && flatteredMadeCustomColor.trim() !== ''
+            ? flatteredMadeCustomColor.trim()
+            : null) || baseColor;
+        break;
+    }
 
     const applyTo = vscode.workspace.getConfiguration('flattered.applyTo');
     const overrides = buildFlatteredColors(baseColor, applyTo);
@@ -225,7 +235,7 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.ConfigurationTarget.Global,
       );
 
-    vscode.window.showInformationMessage(`Flattered ${customColor ? ' Custom ' : ''}applied to theme: ${themeName}`);
+    vscode.window.showInformationMessage(`Flattered applied to theme: ${themeName}`);
   };
 
   context.subscriptions.push(
