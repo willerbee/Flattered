@@ -93,7 +93,6 @@ function buildFlatteredColors(baseColor: string, applyTo: vscode.WorkspaceConfig
   apply = applyTo.get('statusBar');
   colors['statusBar.background'] = apply ? baseColor : 'false';
   colors['statusBar.noFolderBackground'] = apply ? baseColor : 'false';
-  colors['statusBar.debuggingBackground'] = apply ? baseColor : 'false';
   colors['statusBar.border'] = apply && applyBorders ? baseColor : 'false';
   colors['statusBar.focusBorder'] = apply && applyBorders ? baseColor : 'false';
   colors['statusBar.noFolderBorder'] = apply && applyBorders ? baseColor : 'false';
