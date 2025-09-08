@@ -21,6 +21,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { gzip, gunzip } from 'node:zlib';
 import { promisify } from 'node:util';
+import { parse } from 'jsonc-parser';
 
 const gzipPromise = promisify(gzip);
 const gunzipPromise = promisify(gunzip);
@@ -145,22 +146,34 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
+    const normalizedThemeName = themeName.trim().toLowerCase();
+
+
     const allExts = vscode.extensions.all;
+
     const themeExt = allExts.find((ext) =>
-      ext.packageJSON.contributes?.themes?.some((t: any) => t.label === themeName || t.id === themeName),
+      ext.packageJSON.contributes?.themes?.some((t: any) =>
+        t.label?.trim().toLowerCase() === normalizedThemeName ||
+        t.id?.trim().toLowerCase() === normalizedThemeName
+      )
     );
+
     if (!themeExt) {
       vscode.window.showWarningMessage(`Could not find theme file for "${themeName}"`);
       return;
     }
+
     const themeInfo = themeExt.packageJSON.contributes.themes.find(
-      (t: any) => t.label === themeName || t.id === themeName,
+      (t: any) =>
+        t.label?.trim().toLowerCase() === normalizedThemeName ||
+        t.id?.trim().toLowerCase() === normalizedThemeName
     );
+
     const themePath = path.join(themeExt.extensionPath, themeInfo.path);
     let themeData: any;
     try {
       const raw = fs.readFileSync(themePath, 'utf-8');
-      themeData = JSON.parse(raw);
+      themeData = parse(raw);
     } catch (err) {
       vscode.window.showErrorMessage('Failed to read theme file.');
       return;
