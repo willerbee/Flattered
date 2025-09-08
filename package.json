@@ -35,13 +35,26 @@
           "order": 0,
           "type": "boolean",
           "default": true,
-          "description": "Enable Flattered."
+          "description": "Allow Flattered to apply changes. (Reset Current Theme command will still work nonetheless)"
         },
         "flattered.autoApply": {
           "order": 1,
-          "type": "boolean",
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "enum": [
+            true,
+            false,
+            "ask"
+          ],
+          "enumDescriptions": [
+            "Yes, auto apply when there's a change in the color theme or any Flattered setting",
+            "No, ignore any changes and Flattered will be applied manually by command",
+            "Ask if I want to apply a detected change"
+          ],
           "default": false,
-          "description": "Enable automatic apply Flattered on theme change, workbench.colorCustomizations, or Flatter setting change."
+          "description": "Enable automatic apply Flattered on theme change, workbench.colorCustomizations, or Flatter setting change"
         },
         "flattered.customColor": {
           "order": 2,

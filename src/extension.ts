@@ -239,20 +239,35 @@ export function activate(context: vscode.ExtensionContext) {
     }),
   );
 
-  vscode.workspace.onDidChangeConfiguration((e) => {
-    const autoApply = vscode.workspace.getConfiguration('flattered').get<boolean>('autoApply');
+  vscode.workspace.onDidChangeConfiguration(async (e) => {
+    const autoApply = vscode.workspace.getConfiguration('flattered').get<boolean | string>('autoApply') || false;
     const enabled = vscode.workspace.getConfiguration('flattered').get<boolean>('enabled');
-    if (!autoApply) {
-      return;
-    }
 
     if (
       e.affectsConfiguration('workbench.colorTheme') ||
       e.affectsConfiguration('flattered.autoApply') ||
       e.affectsConfiguration('flattered.applyTo') ||
       e.affectsConfiguration('flattered.customColor') ||
+      e.affectsConfiguration('flattered.colorSource') ||
       e.affectsConfiguration('flattered.enabled')
     ) {
+      if (autoApply === false) {
+        return;
+      } else if (autoApply === 'ask') {
+        const response = await vscode.window.showInformationMessage(
+          'Changes detected. Apply Flatttered?',
+          'Yes',
+          "Don't Ask",
+        );
+        switch (response) {
+          case "Yes": break;
+          case "Don't Ask":
+            vscode.workspace.getConfiguration().update('flattered.autoApply', false, vscode.ConfigurationTarget.Global);
+          default:
+            return;
+        }
+      }
+
       resetFlattered();
       if (enabled) {
         applyFlattered();
