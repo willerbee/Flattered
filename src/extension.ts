@@ -40,30 +40,30 @@ function resetFlattered() {
   const config = vscode.workspace.getConfiguration();
 
   const backupColorCustomizations = config.get<Record<string, string>>('flattered.backupColorCustomizations') || {};
-  const colors = config.get<Record<string, string>>('workbench.colorCustomizations') || {};
-  const flatteredMade = colors['flattered-made']?.split(',');
+  const workbenchColorCustomizations = config.get<Record<string, string>>('workbench.colorCustomizations') || {};
+  const flatteredMadeSetting = workbenchColorCustomizations['flattered-made'];
 
-  if (Object.keys(backupColorCustomizations).length === 0 && !flatteredMade) {
+  if (Object.keys(backupColorCustomizations).length === 0 && !flatteredMadeSetting) {
     return;
   }
 
-  const newColors = { ...colors };
+  const newWorkbenchColorCustomizations = { ...workbenchColorCustomizations };
 
   const applyTo = vscode.workspace.getConfiguration('flattered.applyTo');
   const overrides = buildFlatteredColors('false', applyTo);
 
-  for (const [key, value] of Object.entries(colors)) {
+  for (const [key, value] of Object.entries(workbenchColorCustomizations)) {
     if (key !== 'flattered-made' && backupColorCustomizations[key]) {
-      newColors[key] = backupColorCustomizations[key];
-    } else if (overrides.hasOwnProperty(key) || key === 'flattered-made') {
-      delete newColors[key];
+      newWorkbenchColorCustomizations[key] = backupColorCustomizations[key];
+    } else if (key === 'flattered-made' || overrides.hasOwnProperty(key)) {
+      delete newWorkbenchColorCustomizations[key];
     }
   }
 
-  if (Object.keys(newColors).length === 0) {
+  if (Object.keys(newWorkbenchColorCustomizations).length === 0) {
     config.update('workbench.colorCustomizations', undefined, vscode.ConfigurationTarget.Global);
   } else {
-    config.update('workbench.colorCustomizations', newColors, vscode.ConfigurationTarget.Global);
+    config.update('workbench.colorCustomizations', newWorkbenchColorCustomizations, vscode.ConfigurationTarget.Global);
   }
 
   config.update('flattered.backupColorCustomizations', undefined, vscode.ConfigurationTarget.Global);
