@@ -76,22 +76,22 @@
           "order": 3,
           "type": "string",
           "default": "",
-          "description": "Custom color (hex) to use. Leave blank to use editor background color."
+          "description": "Custom color (hex) to use when selected as source. If blank, will use editor background color"
         },
         "flattered.applyTo.titleBar": {
-          "order": 3,
+          "order": 4,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to title bar"
         },
         "flattered.applyTo.tabs": {
-          "order": 4,
+          "order": 5,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to editor tabs"
         },
         "flattered.applyTo.activityBar": {
-          "order": 5,
+          "order": 6,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to activity bar"
@@ -103,7 +103,7 @@
           "description": "Apply Flattered color to minimap"
         },
         "flattered.applyTo.sideBar": {
-          "order": 6,
+          "order": 8,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to sidebar"
@@ -115,33 +115,34 @@
           "description": "Apply Flattered color to sidebar section headers"
         },
         "flattered.applyTo.panel": {
-          "order": 7,
+          "order": 10,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to bottom panel"
         },
         "flattered.applyTo.terminal": {
-          "order": 8,
+          "order": 11,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to integrated terminal"
         },
         "flattered.applyTo.statusBar": {
-          "order": 9,
+          "order": 12,
           "type": "boolean",
           "default": true,
           "description": "Apply Flattered color to status bar"
         },
         "flattered.applyTo.borders": {
-          "order": 10,
+          "order": 13,
           "type": "boolean",
           "default": true,
           "description": "Also apply on related borders"
         },
         "flattered.backupColorCustomizations": {
+          "order": 14,
           "type": "object",
           "default": {},
-          "description": "Tracked backup customizations before applying in workbench.colorCustomizations"
+          "description": "Backup customizations tracked before applying in workbench.colorCustomizations (you don't really have to touch this)"
         }
       }
     }
