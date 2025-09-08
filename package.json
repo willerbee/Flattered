@@ -79,6 +79,12 @@
           "default": true,
           "description": "Apply Flattered color to sidebar"
         },
+        "flattered.applyTo.sideBarSectionHeader": {
+          "order": 9,
+          "type": "boolean",
+          "default": true,
+          "description": "Apply Flattered color to sidebar section headers"
+        },
         "flattered.applyTo.panel": {
           "order": 7,
           "type": "boolean",
