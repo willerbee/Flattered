@@ -267,10 +267,15 @@ export function activate(context: vscode.ExtensionContext) {
         const response = await vscode.window.showInformationMessage(
           'Changes detected. Apply Flatttered?',
           'Yes',
+          'Reset Theme',
           "Don't Ask",
         );
         switch (response) {
           case "Yes": break;
+          case 'Reset Theme':
+            resetFlattered();
+            return;
+            break;
           case "Don't Ask":
             vscode.workspace.getConfiguration().update('flattered.autoApply', false, vscode.ConfigurationTarget.Global);
           default:
