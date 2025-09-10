@@ -103,6 +103,7 @@ function buildFlatteredColors(baseColor: string, applyTo: vscode.WorkspaceConfig
   colors['statusBar.border'] = apply && applyBorders ? baseColor : 'false';
   colors['statusBar.focusBorder'] = apply && applyBorders ? baseColor : 'false';
   colors['statusBar.noFolderBorder'] = apply && applyBorders ? baseColor : 'false';
+  colors['statusBar.debuggingBorder'] = apply && applyBorders ? baseColor : 'false';
 
   apply = applyTo.get('panel');
   colors['panel.background'] = apply ? baseColor : 'false';
@@ -247,7 +248,6 @@ export function activate(context: vscode.ExtensionContext) {
         Object.keys(newBackup).length === 0 ? undefined : newBackup,
         vscode.ConfigurationTarget.Global,
       );
-
     vscode.window.showInformationMessage(`Flattered applied to theme: ${themeName}`);
   };
 
@@ -259,6 +259,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand('flattered.reset', () => {
       resetFlattered();
       vscode.window.showInformationMessage('Flattered reset: overrides removed.');
+    }),
+    vscode.commands.registerCommand('flattered.resetThenSelectTheme', () => {
+      resetFlattered();
+      vscode.commands.executeCommand('workbench.action.selectTheme');
     }),
   );
 

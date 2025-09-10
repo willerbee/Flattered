@@ -26,6 +26,10 @@
       {
         "command": "flattered.reset",
         "title": "Flattered: Reset Current Theme"
+      },
+      {
+        "command": "flattered.resetThenSelectTheme",
+        "title": "Flattered: Reset then Select Theme"
       }
     ],
     "configuration": {
