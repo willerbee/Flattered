@@ -14,8 +14,8 @@ Flattered works by applying overrides to VS Code’s `workbench.colorCustomizati
 If you don’t mess with workbench.customizations, you’re safe to ignore this.
 
 ### 2. Themes may look "weird" with Flattered enabled
-When Flattered is active, previewing out other themes might not look as expected because overrides are still applied.
-To see a theme in its original form, use the **Reset Current Theme** command to remove overrides first. Unfortunately at the time of publish, there isn't a VS Code API event to automate this. Hopefully in the future.
+When Flattered is active, previewing out other themes (e.g. `Preferences: Color Theme`) might not look as expected because overrides are still applied.
+To see a theme in its original form, use the `Flattered: Reset then Select Theme` command to remove overrides first. Unfortunately, there isn't a VS Code API/event to hook into the `Preferences: Color Theme` command. Hopefully in the future.
 
 ---
 
@@ -26,7 +26,7 @@ By default, Flattered will not auto apply.
 - Run command `Flattered: Apply to Current Theme`
 - Profit! :)
 
-NOTE AGAIN: If you're previewing color themes with Flattered already applied, you might only see the text change colors as the overrides for the backgrounds are still active. Reset the theme first to remove the overrides if you want to preview the color themes' original look before previewing. Command: `Flattered: Reset Current Theme`
+NOTE AGAIN: If you're previewing color themes with Flattered already applied, you might only see the text change colors as the overrides for the backgrounds are still active. Reset the theme first to remove the overrides if you want to preview the color themes' original look before previewing. Command: `Flattered: Reset Current Theme`. Conveniently, you can also use the command `Flattered: Reset then Select Theme` instead of `Preferences: Color Theme` to basically reset Flattered then select themes.
 
 - Play around the settings. You can toggle different parts to use the current theme's background color for sidebar, minimap, terminal, titlebar, etc. You can also use the title bar's background color instead of the editor's background color as the source, or even provide a custom hex value. You can also auto apply if you already get the hang of it.
 
@@ -89,23 +89,30 @@ Apply Flattered color to status bar
 Also apply on related borders
 - `flattered.backupColorCustomizations`
 This isn't a setting per se, but a storage of previous workbench color customizations that Flattered have overriden, used later when `Reset Current Theme` command is invoked.
+- many more.. please check `VS Code Settings > Extensions > Flattered Themes`
+
 ### Commands
 - To manually apply Flattered to your current theme:
 `Flattered: Apply to Current Theme`
-- To reset Flattered at any time, via the Command Palette:
+- To reset Flattered at any time via the Command Palette:
 `Flattered: Reset Current Theme`
+- To select a different theme via the Command Palette:
+`Flattered: Reset and Select Theme`
+**NOTE:** This is a convenience command. It basically runs `Flattered: Reset Current Theme` then `Preferences: Color Theme` commands.
 
 ---
 
 ## Known Issues
 
 - Manual user's overrides in `workbench.colorCustomizations` may get wiped out once overrides are applied.
-- ~~Some themes doesn't seem to be compatible with this, i.e. can find where their theme files are located (e.g. "Best Themes Redefined"). Still investigating why.~~ ✅
 
 ---
 
 ## Release Notes
 
+
+### 1.2.1
+- New Command: `Flattered: Reset then Select Theme`. A convenience command to properly preview the original themes without the overrides. It first resets Flattered, then calling `Preferences: Color Theme` command.
 
 ### 1.1.1
 - Fix some themes doesn't get read properly. They should be working now.

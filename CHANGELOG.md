@@ -4,6 +4,10 @@ All notable changes to the "flattered" extension will be documented in this file
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+### 1.2.1
+- New Command: `Flattered: Reset then Select Theme`. A convenience command to properly preview the original themes without the overrides. It first resets Flattered, then calling `Preferences: Color Theme` command.
+
+
 ## 1.1.1
 - Fix some themes doesn't get read properly. They should be working now.
 
